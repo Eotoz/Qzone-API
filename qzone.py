@@ -45,26 +45,28 @@ def make_g_tk(p_skey, __cache={}, **cookie):
 
 class NotLoadedType:
     '''用于表示尚未载入的内容'''
-    '''这里本应通过重载__new__使这个类成为单件类，但我还没搞好
     _instance = None
-    @staticmethod
+    _locked = False
+
     def __new__(cls):
         if cls._instance is None:
             cls._instance = super().__new__(cls)
         return cls._instance
-    '''
-    _locked = False
+
     @staticmethod
     def __init__():
         if NotLoadedType._locked:
             raise ValueError('Do not make new instance of NotLoadedType')
         NotLoadedType._locked = True
+
     @staticmethod
     def __bool__():
         return False
+
     @staticmethod
     def __repr__():
         return 'NotLoaded'
+
 NotLoaded = NotLoadedType()
 
 class Media:
